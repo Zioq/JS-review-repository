@@ -52,7 +52,7 @@ const add_movie_handler = () => {
 			title, // you could omit the value name and the column if key == value
 			[extra_name] : extra_value
 		},
-		id: Math.random()
+		id: Math.random().toString()
 	};
 	movies.push(new_movie);
 	rander_movies();
