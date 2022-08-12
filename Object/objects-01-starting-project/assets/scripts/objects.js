@@ -4,6 +4,8 @@ const search_btn = document.getElementById('search-btn');
 const movies = [];
 
 const rander_movies = (filter = '') => {
+	// set the filter as default argument -> by default, this will be emtpy string if we don't pass any more specific value
+	
 	const movie_list = document.getElementById('movie-list');
 
 	if (movies.length === 0) {
@@ -14,9 +16,12 @@ const rander_movies = (filter = '') => {
 
 	movie_list.innerHTML = '';
 
-	const filtered_movies = !filter ?  movies : movies.filter(movie => movie.includs)
+	// Before rendering the movies, if filter has value, then set the filter.
+	// If the `filter` is falsy, then get all movies, or set filtered movie.
+	// `filter` function & `includes` function.
+	const filtered_movies = !filter ?  movies : movies.filter(movie => movie.info.title.inlcudes(filter));
 
-	movies.forEach((movie) => {
+	filtered_movies.forEach((movie) => {
 		const movie_element = document.createElement('li');
 		let text = movie.info.title + ' - ';
 		for (const key in movie.info) {
@@ -53,11 +58,14 @@ const add_movie_handler = () => {
 	rander_movies();
 }
 
-const search_moviel_title = () => {
-	const filter_input_value = document.getElementById('filter-title').value;
-	rander_movies(filter_input_value);
+const search_movie_handler = () => {
+	// first read user input
+	const filter_val = document.getElementById('filter-title').value;
+	// passt the value into the render function
+	rander_movies(filter_val);
+
 }
 
 //Don't execute it as a function, just point at the name of the function instead. So JS calls that function for us
 add_movie_btn.addEventListener('click', add_movie_handler);
-search_btn.addEventListener('click', search_moviel_title);
+search_btn.addEventListener('click', search_movie_handler);
