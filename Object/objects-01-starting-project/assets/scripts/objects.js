@@ -30,16 +30,24 @@ const rander_movies = (filter = '') => {
 		// Destructuring Object -> use `{ }` when declare variable.
 		const { info, ...other_props } = movie; // You have to enter a key name here which exists in object.
 		console.log(other_props) // log other left properties.
-		const { title: movie_title } = info; // Destructure object's key value on new name.
+		// const { title: movie_title } = info; // Destructure object's key value on new name.
 
 		/* This destructuring object is useful if you use the same property over and over again in multiple places. */
 
+		const movie_title = movie.formatting_title(); // call funciton in the object.
+
+		let { formatting_title }  = movie; 
 
 		let text = movie_title + ' - ';
+		//let text_2 = formatting_title() + '-' // This will return error. Because here `this` means window browser object.
+		// use bind() to preconfigure which argumenta a function takes.
+		// formatting_title = formatting_title.bind(movie); // To use `bind` needs to new varaible to save.
+		let text_2 = formatting_title.call(movie) + ' - ';  // `call` instead goes ahead and execute the funciton right away.
+
 		for (const key in info) {
 			//JS recognizes key as string
 			if( key != 'title' )  {
-				text = text + `${key}: ${info[key]}`;
+				text = text_2 + `${key}: ${info[key]}`;
 			}	
  		}
 		movie_element.textContent = text;
@@ -64,7 +72,13 @@ const add_movie_handler = () => {
 			title, // you could omit the value name and the column if key == value
 			[extra_name] : extra_value
 		},
-		id: Math.random().toString()
+		id: Math.random().toString(),
+		formatting_title() {
+			// Remember, `this` does not automatically refer to the object that surrounds it.
+			// Instead, it referes to who or what was responsible for calling this funciton.
+			console.log(this);
+			return this.info.title.toUpperCase();
+		}
 	};
 	movies.push(new_movie);
 	rander_movies();
