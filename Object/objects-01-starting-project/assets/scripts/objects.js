@@ -23,11 +23,23 @@ const rander_movies = (filter = '') => {
 
 	filtered_movies.forEach((movie) => {
 		const movie_element = document.createElement('li');
-		let text = movie.info.title + ' - ';
-		for (const key in movie.info) {
+		
+		//check the proerty in the object. -> Check key value using a `in`
+		if( !('info' in movie) ) return; // Or you can use undefined. if(movie.info === undefined)
+
+		// Destructuring Object -> use `{ }` when declare variable.
+		const { info, ...other_props } = movie; // You have to enter a key name here which exists in object.
+		console.log(other_props) // log other left properties.
+		const { title: movie_title } = info; // Destructure object's key value on new name.
+
+		/* This destructuring object is useful if you use the same property over and over again in multiple places. */
+
+
+		let text = movie_title + ' - ';
+		for (const key in info) {
 			//JS recognizes key as string
 			if( key != 'title' )  {
-				text = text + `${key}: ${movie.info[key]}`;
+				text = text + `${key}: ${info[key]}`;
 			}	
  		}
 		movie_element.textContent = text;
