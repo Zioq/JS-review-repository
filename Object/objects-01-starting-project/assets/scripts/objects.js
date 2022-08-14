@@ -46,7 +46,7 @@ const rander_movies = (filter = '') => {
 
 		for (const key in info) {
 			//JS recognizes key as string
-			if( key != 'title' )  {
+			if( key !== 'title' && key !== '_title')  {
 				text = text_2 + `${key}: ${info[key]}`;
 			}	
  		}
@@ -62,14 +62,29 @@ const add_movie_handler = () => {
 	const extra_name = document.getElementById('extra-name').value.toLowerCase();
 	const extra_value = document.getElementById('extra-value').value.toLowerCase();
 
-	if (title.trim() === '' || extra_name === '' || extra_value === '') {
+	if ( extra_name === '' || extra_value === '') {
 		return;
 	}
 	
 	// Set up the obejct
 	const new_movie = {
 		info: {
-			title, // you could omit the value name and the column if key == value
+			// title, /* you could omit the value name and the column if key == value */
+
+			/* SETTER */
+			set title(value) {
+				if(value.trim() === '') {
+					this._title = 'DEFAULT';
+					return;
+				}
+				this._title // use `_` in front of variable name to make it claer that this is like the internal value for outside world.
+			},
+
+			/* GETTER */
+			get title() {
+				return this_title;
+			} ,
+			
 			[extra_name] : extra_value
 		},
 		id: Math.random().toString(),
@@ -80,6 +95,12 @@ const add_movie_handler = () => {
 			return this.info.title.toUpperCase();
 		}
 	};
+
+	new_movie.info.title = title;
+	console.log(new_movie.info.title);
+
+
+
 	movies.push(new_movie);
 	rander_movies();
 }
