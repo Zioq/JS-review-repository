@@ -28,3 +28,14 @@ Classes → Allow use to build objects in an easier way or to build objects base
 - Classes → “Blueprints for objects (theoretical definition)”
     - Define how objects look like, which properties and methods they have.
     - Classes make creation of multiple, similar objects much easier.
+
+
+For class naming: The convention is to start that name with a capital character.
+
+Constructor in class: Through constructor in class, you can assign the arguments values as a class’s property value;
+
+(But if you don’t want to assign the value right away when create a object, you should create fields for it to save the data later in case.)
+
+
+### Class Fields (vs properties)
+A field becomes a property when we create an object based on the class
