@@ -38,4 +38,33 @@ Constructor in class: Through constructor in class, you can assign the arguments
 
 
 ### Class Fields (vs properties)
+```
+class MOVIE {
+	title = 'DEFAULT' // (Public) Class Field
+	constructor(title) {
+		this.title = title // (Public) Class property
+	}
+}
+```
 A field becomes a property when we create an object based on the class
+
+### Static Properties, Fields & Methods
+
+- Static Field / Property / Method 
+⭐️  Defined with `static` key word.
+⭐️ Only accessible on class itself without instantiation(i.e not on instance), which means you don’t need to use the new keyword to create an object based on that class.
+⭐️  Typically used in helper class, global configuration etc.
+- Instance Field / Property / Method
+⭐️  Defined without static keyword.
+⭐️ Only accessible on instances (= objects) based on class.
+⭐️ Typically used for core, re-usable logic.
+
+### When to use Classes
+
+- When we have to use object literals ({…})
+    - Great for general data grouping, objects which you only create once with same structure.
+    - Quick & easy to create, no overhead.
+    
+- When we have to use classes.
+    - Great when you re-create the same type of object over and over again.(Re-create the same type of object with the same structure and the same attached logic over and over again.)
+    - More overhead initially but easy ‘object duplication’ thereafter.

@@ -10,6 +10,27 @@ class Movie {
 }
 
 
+class ShoppingCart {
+	items = [];
+	total_out_put = '';
+
+	add_movie(movie) {
+		this.items.push(movie);
+		this.total_out_put.innerHTML = `<h2>Total : \$${0}</h2>`;
+	}
+
+	render() {
+		const cart_element = document.createElement('section');
+		cart_element.innerHTML = `
+			<button>Order Now1</button>
+		`;
+		cart_element.className = 'cart';
+		this.total_out_put = cart_element.querySelector('h2');
+
+		return cart_element;
+	}
+}
+
 class MovieItem {
 	// Class for rendering single movie.
 
@@ -17,6 +38,12 @@ class MovieItem {
 	constructor(movie) {
 		// adds a new 'movie' property to the eventually created objects.
 		this.movie = movie;
+	}
+
+	// Make anohter method for add_movie action which is called in the single movie item
+	add_to_cart() {
+		// Now we can user class staitc method for it.
+		App.add_movie_to_cart(this.movie);
 	}
 
 	// Have a logic to render a single movie item.
@@ -33,6 +60,15 @@ class MovieItem {
 				</div>
 			</div>
 		`;
+
+		const add_movie_btn = movie_li.querySelector('.add_btn');
+		/* If this.add_to_cart doesn't bind this, it will not work properly. 
+			this.add_to_cart now called on `addEventListeer` not a whole class.
+		*/
+		// add_movie_btn.addEventListener('click', this.add_to_cart); 
+
+		add_movie_btn.addEventListener('click', this.add_to_cart.bind(this));
+
 
 		return movie_li;
 	}
@@ -59,8 +95,45 @@ class MovieList {
 			movie_li = movie_item.render();
 			movie_ul.append(movie_li);
 		}
+
+		return movie_ul;
 	}
 }
 
-const movie_list = new MovieList();
-movie_list.render();
+class Teather {
+
+	cart = '';
+
+	render() {
+
+		const rendeerHook = document.getElementById('app');
+
+		this.cart = new ShoppingCart();
+		const cart_element = this.cart.render();
+
+		const movie_list = new MovieList();
+		const movie_list_element = movie_list.render();
+
+		rendeerHook.append(cart_element);
+		rendeerHook.append(movie_list_element);
+	}
+}
+
+
+class App  {
+
+	static cart;
+
+	static init() {
+		const theater = new Teather();
+		theater.render();
+		this.cart = theater.cart;
+	}
+
+	static add_movie_to_cart(movie) {
+		this.cart.add_movie(movie);
+	}
+}
+
+// This will execute init method directly on the class itself without new keyword.
+App.init();
