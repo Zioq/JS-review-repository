@@ -14,9 +14,23 @@ class ShoppingCart {
 	items = [];
 	total_out_put = '';
 
+	set cart_item(value) {
+		this.items = value;
+		this.total_out_put.innerHTML = `<h2>Total : \$${this.total_price.toFixed(2)}</h2>`;
+	}
+
+	get total_price () {
+		const sum = this.items.reduce((prev_value, current) => {
+			prev_value + current.price
+		}, 0)
+
+		return sum;
+	}
+
 	add_movie(movie) {
-		this.items.push(movie);
-		this.total_out_put.innerHTML = `<h2>Total : \$${0}</h2>`;
+		const updated_movie_items = [...this.items];
+		updated_movie_items.push(movie);
+		this.cart_item = updated_movie_items; // Setter pass the value by assigning it.
 	}
 
 	render() {
