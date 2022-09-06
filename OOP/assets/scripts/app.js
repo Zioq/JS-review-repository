@@ -17,7 +17,35 @@ class Product {
 	}
 }
 
-class ShoppingCart {
+
+class ElementAttribute {
+	constructor(attrName, attrValue) {
+		this.name = attrName;
+		this.value = attrValue;
+	}
+}
+
+class Component {
+	constructor(renderHookId) {
+		console.log('')
+		this.hookId = renderHookId;
+	}
+
+	createRootElement(tag, cssClasses, attributes) {
+		const rootElement = document.createElement(tag);
+		if ( cssClasses ) {
+			rootElement.className = cssClasses
+		}
+		if ( attributes && attributes.length > 0 ) {
+			rootElement.setAttribute(attr.name, attr.value);
+		}
+		document.getElementById(this.hookId).append(rootElement);
+
+		return rootElement;
+	}
+}
+
+class ShoppingCart extends Component{
 	items = [];
 
 	set cartItems(value) {
@@ -32,6 +60,10 @@ class ShoppingCart {
 		return sum;
 	}
 
+	/* If your subclasses does not have a constructor, the constructor of the parent class is automatically called. But if your subclass has constructor, then this constructor will be called and the parent class constructor will not be called.*/
+	constructor(renderHookId) {
+		super(renderHookId); // This keyword allowed parent class's constructor. But you should call it at first if you want to add more subclass fields.
+	}
 
 	add_product(product) {
 		const updatedItems = [...this.items];
@@ -41,14 +73,14 @@ class ShoppingCart {
 
 
 	render() {
-		const cartEl = document.createElement('section');
+		// const cartEl = document.createElement('section');
+		const cartEl = this.createRootElement('section', 'cart');
 		cartEl.innerHTML = `
 			<h2>Total: \$${0}</h2>
 			<button>Order Now!</button>
 		`;
-		cartEl.className = 'cart';
+		// cartEl.className = 'cart';
 		this.total_output = cartEl.querySelector('h2');
-		return cartEl;
 	}
 }
 
@@ -113,8 +145,8 @@ class Shop {
 	render() {
 		const renderHook = document.getElementById('app');
 
-		this.cart = new ShoppingCart();
-		const cart_element = this.cart.render();
+		this.cart = new ShoppingCart('app');
+		this.cart.render();
 
 		const product_list = new ProdctList();
 		const product_list_element = product_list.render();
