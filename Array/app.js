@@ -110,3 +110,25 @@ const sum2= originalArray.reduce((sumVal, curVal) => sumVal + curVal.price, 0); 
 
 const sum3 = originalArray.map(obj => obj.price)
     .reduce((sumVal, curVal) => sumVal + curVal, 0); // => 46.97
+
+
+
+/*  Spread operator 
+    - an operator that in the end pulls out all elements of an array and 
+    gives them to you as a stand alone list of elements.
+*/
+
+const name_fragments = ['Robert', 'Han']
+const copied_name_fragments = [...name_fragments]
+
+
+//By using a spread operator, we can use Math.min() which only allowed a list of values, even the argument is an array.
+console.log(Math.min(...test_result))
+
+
+/*  Array Destructuring 
+    - A neat feature if you want to split up an array into variable or constants.
+*/
+const name_data = ['Robert', 'Han', 'MR', 31];
+const [first_name, last_name, ...otherInformation] = name_data;
+console.log(first_name, last_name, otherInformation)
